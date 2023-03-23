@@ -2,7 +2,8 @@ import { useQuery } from "react-query";
 import fetcher from "@/lib/fetcher";
 
 export default function UserGallery() {
-  const { isLoading, isError, isSuccess, data } = useQuery(["users"], fetcher.bind(this, "https://jsonplaceholder.typicode.com/users"), { staleTime: 60000 });
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const { isLoading, isError, isSuccess, data } = useQuery(["users"], fetcher.bind(this, apiUrl), { staleTime: 60000 });
 
   if(isLoading) {
     return (
@@ -19,7 +20,7 @@ export default function UserGallery() {
   return (
     <div className="flex justify-around">
       {[data.map(user => (
-        <div className="bg-slate-400 m-1">
+        <div key={user.id} className="bg-slate-400 m-1">
           <h3>{user.name}</h3>
           <p>{user.username}</p>
           <p>{user.phone}</p>
